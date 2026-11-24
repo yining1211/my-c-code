@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+int main()
+{
+    char a[10], b[1000086];
+    scanf("%s", a);
+    getchar();
+    scanf("%[^\n]", b);
+
+    int a_len = strlen(a);
+    for (int i = 0;i < a_len;i++)
+    {
+        a[i] = tolower(a[i]);
+    }
+    int b_len = strlen(b);
+    for (int i = 0;i < b_len;i++)
+    {
+        b[i] = tolower(b[i]);
+    }
+
+    int count_ = 0;
+    int first_top = -1;
+    for (int i = 0;i < b_len;i++)
+    {
+        int match = 1;
+        for (int j = 0;j < a_len;j++)
+        {
+            if (b[i + j] != a[j])
+            {
+                match = 0;
+                break;
+            }
+        }
+        if (match == 1)
+        {
+            int left_ok = (i == 0 || b[i - 1] == ' ');
+            int right_ok = (b[i + a_len] == ' ' || b[i + a_len] == "\n");
+            if (left_ok && right_ok)
+            {
+                count_++;
+                if (first_top == -1)
+                {
+                    first_top = i;
+                }
+            }
+        }
+    }
+    if (count_ != 0)
+    {
+        printf("%d %d", count_, first_top);
+    }
+    if (count_ == 0)
+    {
+        printf("%d", first_top);
+    }
+    return 0;
+}
